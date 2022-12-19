@@ -32,7 +32,17 @@ async function run(){
       const query={}
       const cursor=usersCollection.find(query)
       const services=await cursor.toArray();
+      
       res.send(services)
+     })
+     app.get('/vendors/count',async(req,res)=>{
+      const page=parseInt(req.query.page )
+      const size= parseInt(req.query.size )
+      const query={}
+      const cursor=usersCollection.find(query)
+      const services=await cursor.skip(page*size).limit(size).toArray();
+      const count=await usersCollection.estimatedDocumentCount()
+      res.send({count,services})
      })
      app.post('/vendors' , async(req,res)=>{
         const order=req.body;
