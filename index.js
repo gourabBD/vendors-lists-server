@@ -39,7 +39,7 @@ async function run(){
       const page=parseInt(req.query.page )
       const size= parseInt(req.query.size )
       const query={}
-      const cursor=usersCollection.find(query)
+      const cursor=usersCollection.find(query).sort({_id:-1})
       const services=await cursor.skip(page*size).limit(size).toArray();
       const count=await usersCollection.estimatedDocumentCount()
       res.send({count,services})
